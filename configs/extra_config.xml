@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<yandex>
+    <openSSL>
+        <server> <!-- Used for https server AND secure tcp port -->
+            <!-- openssl req -subj "/CN=localhost" -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout /etc/clickhouse-server/server.key -out /etc/clickhouse-server/server.crt -->
+            <certificateFile>/etc/clickhouse-server/ssl/clickhouse.certificate.pem</certificateFile>
+            <privateKeyFile>/etc/clickhouse-server/ssl/clickhouse.key</privateKeyFile>
+            <caConfig>/etc/clickhouse-server/ssl/snakeoil-ca-1.crt</caConfig>
+            <!-- openssl dhparam -out /etc/clickhouse-server/dhparam.pem 4096 -->
+            <dhParamsFile>/etc/clickhouse-server/ssl/dhparam.pem</dhParamsFile>
+            <verificationMode>relaxed</verificationMode>
+            <loadDefaultCAFile>true</loadDefaultCAFile>
+            <cacheSessions>false</cacheSessions>
+            <disableProtocols>sslv2,sslv3</disableProtocols>
+            <preferServerCiphers>true</preferServerCiphers>
+        </server>
+    </openSSL>
+    <kafka>
+	<debug>all</debug>
+	<ssl_key_location>/etc/clickhouse-server/ssl/clickhouse.key</ssl_key_location>
+	<ssl_key_password>confluent</ssl_key_password>
+	<ssl_certificate_location>/etc/clickhouse-server/ssl/clickhouse.certificate.pem</ssl_certificate_location>
+	<ssl_ca_location>/etc/clickhouse-server/ssl/snakeoil-ca-1.crt</ssl_ca_location>
+	<ssl_endpoint_identification_algorithm>https</ssl_endpoint_identification_algorithm> 
+	<sasl_mechanism>PLAIN</sasl_mechanism>
+	<security_protocol>sasl_ssl</security_protocol>
+	<sasl_username>kafka</sasl_username>
+	<sasl_password>kafkasecret</sasl_password>
+	</kafka>
+    <zookeeper>
+	    <node index="1">
+		    <host>zookeeper</host>
+		    <port>2181</port>
+	    </node>
+        <session_timeout_ms>3000</session_timeout_ms>
+    </zookeeper>
+<listen_host>::1</listen_host>
+</yandex>
